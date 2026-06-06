@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloController {
     @GetMapping("/api/theme")
     public String getTheme() {
-        return "dark";
+        return "home controller";
     }
 }
