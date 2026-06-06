@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class HelloController {
-    @GetMapping("/api/theme")
+    @GetMapping("/api/")
     public String getTheme() {
         return "home controller";
     }
 }
+
+//Test Commit by ritesh
