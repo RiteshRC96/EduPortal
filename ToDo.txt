@@ -1,0 +1,358 @@
+# Project: College Admission Registration Portal (Frontend Only)
+
+## Overview
+
+Build a modern, responsive React web application for students who want to apply for college admission.
+
+### Tech Stack
+
+* React.js
+* React Router
+* Material UI / ShadCN UI
+* React Hook Form + Zod validation
+* Framer Motion for animations
+* Axios (for future backend integration)
+* Context API or Redux Toolkit for state management
+
+### Design Requirements
+
+* Modern and clean UI.
+* Use soft and professional colors (avoid vibrant/neon colors).
+* Suitable for students and educational platforms.
+* Fully responsive for mobile, tablet, and desktop.
+* Smooth animations and transitions.
+* Glassmorphism or subtle card-based design.
+* Loading skeletons and smooth page transitions.
+* Attractive empty states and success dialogs.
+
+### Color Theme
+
+* Primary: Slate Blue / Indigo
+* Secondary: Gray
+* Background: Off-white / Light Gray
+* Success: Soft Green
+* Error: Soft Red
+
+---
+
+# Pages and Features
+
+## 1. Login Page
+
+### Features
+
+* Email input
+* Password input
+* Login button
+* Login with Google button
+* Login with OTP option
+* Forgot Password link
+* Link to Registration page
+
+### UI Text
+
+Don't have an account? Create it
+
+### Validation
+
+* Email format validation
+* Password required validation
+
+### Animation
+
+* Fade-in page animation
+* Button hover effects
+* Smooth input focus animations
+
+---
+
+## 2. User Registration Page
+
+### Fields
+
+* Email Address
+* Mobile Number
+* Password
+* Confirm Password
+
+### Buttons
+
+* Send OTP
+* Register with Google
+
+### Validation
+
+* Valid email
+* Valid mobile number
+* Password minimum 8 characters
+* Password and Confirm Password must match
+
+### Flow
+
+1. User enters details.
+2. Validate all fields.
+3. User clicks "Send OTP".
+4. Navigate to OTP Verification screen.
+
+### Animation
+
+* Step transition animation
+* Success toast notification
+
+---
+
+## 3. OTP Verification Page
+
+### Fields
+
+* 6-digit OTP input
+
+### Buttons
+
+* Verify OTP
+* Resend OTP
+
+### Flow
+
+1. User enters OTP.
+2. Verify OTP.
+3. Redirect to Home page.
+
+### Animation
+
+* Countdown timer animation
+* Success verification animation
+
+---
+
+## 4. Home Page
+
+### Purpose
+
+Students can search colleges by location.
+
+### Components
+
+#### State Dropdown
+
+* Dynamic dropdown
+* Loaded from API (mock data for now)
+
+#### District Dropdown
+
+* Changes based on selected state
+
+### College Listing
+
+Display colleges in:
+
+* Card Layout
+* Alphabetical Order (A-Z)
+
+Each card should show:
+
+* College Name
+* Location
+* Short Description
+* College Image
+* View Details button
+
+### Pagination
+
+* 10 colleges per page
+
+### Animation
+
+* Card hover effect
+* Smooth pagination transition
+
+---
+
+## 5. College Details Modal/Page
+
+Open when user clicks on a college.
+
+### Display
+
+#### Basic Information
+
+* College Name
+* Description
+* Address
+* State
+* District
+
+#### Statistics
+
+* Last Year Cutoff
+* Total Placements
+* Placement Percentage
+* Average Package
+
+#### Location
+
+* Embedded Google Map placeholder
+
+#### Gallery
+
+* Multiple college images
+* Image carousel
+
+### CTA Button
+
+Register for Admission
+
+### Animation
+
+* Modal opening animation
+* Image gallery transitions
+
+---
+
+## 6. College Admission Registration Form
+
+Open when user clicks "Register for Admission".
+
+### Student Details
+
+#### Personal Information
+
+* Full Name
+* Mobile Number
+* Email Address
+* Date of Birth
+* Gender
+
+#### Address Information
+
+* State
+* District
+* Full Address
+* Pin Code
+
+#### Academic Information
+
+* 10th Percentage
+* 12th Percentage
+* Board Name
+* Passing Year
+
+### Validation
+
+* Required field validation
+* Email validation
+* Mobile validation
+* Percentage range (0-100)
+* Pin code validation
+
+### Button
+
+Send Application
+
+### Flow
+
+1. User fills form.
+2. Validate all fields.
+3. Click "Send Application".
+
+For now, do not call any backend API.
+
+Show success popup:
+
+"Application submitted successfully. The college will contact you soon."
+
+### Success Dialog Actions
+
+* Go to Home
+* View Colleges
+
+### Animation
+
+* Multi-section form animation
+* Success dialog animation
+
+---
+
+# Future Backend Integration (Spring Boot)
+
+Keep API layer separate.
+
+Expected APIs:
+
+## Authentication
+
+* Login
+* Register
+* Google Login
+* Send OTP
+* Verify OTP
+
+## Location
+
+* Get States
+* Get Districts by State
+
+## Colleges
+
+* Get Colleges
+* Get College Details
+* Search Colleges
+
+## Applications
+
+* Submit Admission Form
+* Send Email to College
+
+---
+
+# Suggested Folder Structure
+
+src/
+│
+├── pages/
+│ ├── Login
+│ ├── Register
+│ ├── OTPVerification
+│ ├── Home
+│ ├── CollegeDetails
+│ └── AdmissionForm
+│
+├── components/
+│ ├── Navbar
+│ ├── Footer
+│ ├── CollegeCard
+│ ├── Pagination
+│ ├── Modal
+│ ├── FormFields
+│ └── Loader
+│
+├── services/
+│ └── api.js
+│
+├── hooks/
+│
+├── store/
+│
+├── routes/
+│
+├── assets/
+│
+└── utils/
+
+---
+
+# Additional Enhancements
+
+* Dark Mode support
+* Search colleges by name
+* Filter by course
+* Save favorite colleges
+* Recently viewed colleges
+* Notification system
+* Skeleton loaders
+* Error pages (404, 500)
+* Accessibility support
+* SEO-friendly structure
+* Reusable component architecture
+
+Goal: Build a professional, modern, student-friendly admission portal frontend with smooth animations and a clean user experience. Backend integration will be added later using Spring Boot APIs.

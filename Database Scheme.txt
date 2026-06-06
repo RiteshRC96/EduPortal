@@ -1,0 +1,231 @@
+# College Admission Registration Portal - Database Schema
+
+## users
+
+| Column             | Type         | Constraints             |
+| ------------------ | ------------ | ----------------------- |
+| id                 | BIGINT       | PK                      |
+| email              | VARCHAR(255) | UNIQUE, NOT NULL        |
+| mobile_number      | VARCHAR(15)  | UNIQUE, NOT NULL        |
+| password_hash      | VARCHAR(255) | NOT NULL                |
+| google_id          | VARCHAR(255) | NULL                    |
+| is_email_verified  | BOOLEAN      | DEFAULT FALSE           |
+| is_mobile_verified | BOOLEAN      | DEFAULT FALSE           |
+| status             | VARCHAR(20)  | ACTIVE/INACTIVE/BLOCKED |
+| created_at         | TIMESTAMP    | NOT NULL                |
+| updated_at         | TIMESTAMP    | NOT NULL                |
+
+---
+
+## otp_verifications
+
+| Column     | Type        | Constraints                        |
+| ---------- | ----------- | ---------------------------------- |
+| id         | BIGINT      | PK                                 |
+| user_id    | BIGINT      | FK → users.id                      |
+| otp_code   | VARCHAR(10) | NOT NULL                           |
+| otp_type   | VARCHAR(30) | REGISTRATION/LOGIN/FORGOT_PASSWORD |
+| expires_at | TIMESTAMP   | NOT NULL                           |
+| verified   | BOOLEAN     | DEFAULT FALSE                      |
+| created_at | TIMESTAMP   | NOT NULL                           |
+
+---
+
+## states
+
+| Column     | Type         | Constraints |
+| ---------- | ------------ | ----------- |
+| id         | BIGINT       | PK          |
+| state_name | VARCHAR(100) | NOT NULL    |
+| state_code | VARCHAR(10)  | UNIQUE      |
+
+---
+
+## districts
+
+| Column        | Type         | Constraints    |
+| ------------- | ------------ | -------------- |
+| id            | BIGINT       | PK             |
+| state_id      | BIGINT       | FK → states.id |
+| district_name | VARCHAR(100) | NOT NULL       |
+
+---
+
+## colleges
+
+| Column               | Type          | Constraints       |
+| -------------------- | ------------- | ----------------- |
+| id                   | BIGINT        | PK                |
+| college_code         | VARCHAR(50)   | UNIQUE            |
+| college_name         | VARCHAR(255)  | NOT NULL          |
+| description          | TEXT          |                   |
+| address              | TEXT          |                   |
+| state_id             | BIGINT        | FK → states.id    |
+| district_id          | BIGINT        | FK → districts.id |
+| website              | VARCHAR(255)  |                   |
+| email                | VARCHAR(255)  |                   |
+| phone                | VARCHAR(20)   |                   |
+| last_year_cutoff     | DECIMAL(5,2)  |                   |
+| total_placements     | INT           |                   |
+| placement_percentage | DECIMAL(5,2)  |                   |
+| average_package      | DECIMAL(10,2) |                   |
+| college_logo         | VARCHAR(500)  |                   |
+| cover_image          | VARCHAR(500)  |                   |
+| is_active            | BOOLEAN       | DEFAULT TRUE      |
+| created_at           | TIMESTAMP     |                   |
+| updated_at           | TIMESTAMP     |                   |
+
+---
+
+## college_images
+
+| Column        | Type         | Constraints      |
+| ------------- | ------------ | ---------------- |
+| id            | BIGINT       | PK               |
+| college_id    | BIGINT       | FK → colleges.id |
+| image_url     | VARCHAR(500) |                  |
+| display_order | INT          |                  |
+| created_at    | TIMESTAMP    |                  |
+
+---
+
+## courses
+
+| Column      | Type         | Constraints |
+| ----------- | ------------ | ----------- |
+| id          | BIGINT       | PK          |
+| course_name | VARCHAR(100) |             |
+| course_code | VARCHAR(50)  | UNIQUE      |
+| duration    | VARCHAR(50)  |             |
+| description | TEXT         |             |
+
+---
+
+## college_courses
+
+| Column          | Type          | Constraints      |
+| --------------- | ------------- | ---------------- |
+| id              | BIGINT        | PK               |
+| college_id      | BIGINT        | FK → colleges.id |
+| course_id       | BIGINT        | FK → courses.id  |
+| available_seats | INT           |                  |
+| course_fee      | DECIMAL(12,2) |                  |
+
+---
+
+## admission_applications
+
+| Column             | Type         | Constraints       |
+| ------------------ | ------------ | ----------------- |
+| id                 | BIGINT       | PK                |
+| application_no     | VARCHAR(50)  | UNIQUE            |
+| user_id            | BIGINT       | FK → users.id     |
+| college_id         | BIGINT       | FK → colleges.id  |
+| full_name          | VARCHAR(255) |                   |
+| mobile_number      | VARCHAR(15)  |                   |
+| email              | VARCHAR(255) |                   |
+| date_of_birth      | DATE         |                   |
+| gender             | VARCHAR(20)  |                   |
+| state_id           | BIGINT       | FK → states.id    |
+| district_id        | BIGINT       | FK → districts.id |
+| full_address       | TEXT         |                   |
+| pin_code           | VARCHAR(10)  |                   |
+| tenth_percentage   | DECIMAL(5,2) |                   |
+| twelfth_percentage | DECIMAL(5,2) |                   |
+| board_name         | VARCHAR(255) |                   |
+| passing_year       | INT          |                   |
+| application_status | VARCHAR(30)  |                   |
+| submitted_at       | TIMESTAMP    |                   |
+| updated_at         | TIMESTAMP    |                   |
+
+---
+
+## application_documents
+
+| Column         | Type         | Constraints                    |
+| -------------- | ------------ | ------------------------------ |
+| id             | BIGINT       | PK                             |
+| application_id | BIGINT       | FK → admission_applications.id |
+| document_type  | VARCHAR(50)  |                                |
+| file_url       | VARCHAR(500) |                                |
+| uploaded_at    | TIMESTAMP    |                                |
+
+---
+
+## favorite_colleges
+
+| Column     | Type      | Constraints      |
+| ---------- | --------- | ---------------- |
+| id         | BIGINT    | PK               |
+| user_id    | BIGINT    | FK → users.id    |
+| college_id | BIGINT    | FK → colleges.id |
+| created_at | TIMESTAMP |                  |
+
+---
+
+## recently_viewed_colleges
+
+| Column     | Type      | Constraints      |
+| ---------- | --------- | ---------------- |
+| id         | BIGINT    | PK               |
+| user_id    | BIGINT    | FK → users.id    |
+| college_id | BIGINT    | FK → colleges.id |
+| viewed_at  | TIMESTAMP |                  |
+
+---
+
+## notifications
+
+| Column     | Type         | Constraints   |
+| ---------- | ------------ | ------------- |
+| id         | BIGINT       | PK            |
+| user_id    | BIGINT       | FK → users.id |
+| title      | VARCHAR(255) |               |
+| message    | TEXT         |               |
+| is_read    | BOOLEAN      | DEFAULT FALSE |
+| created_at | TIMESTAMP    |               |
+
+---
+
+## refresh_tokens
+
+| Column      | Type      | Constraints   |
+| ----------- | --------- | ------------- |
+| id          | BIGINT    | PK            |
+| user_id     | BIGINT    | FK → users.id |
+| token       | TEXT      |               |
+| expiry_date | TIMESTAMP |               |
+| is_revoked  | BOOLEAN   | DEFAULT FALSE |
+| created_at  | TIMESTAMP |               |
+
+---
+
+# Relationships
+
+users (1) → (M) otp_verifications
+
+users (1) → (M) admission_applications
+
+users (1) → (M) favorite_colleges
+
+users (1) → (M) recently_viewed_colleges
+
+users (1) → (M) notifications
+
+users (1) → (M) refresh_tokens
+
+states (1) → (M) districts
+
+states (1) → (M) colleges
+
+districts (1) → (M) colleges
+
+colleges (1) → (M) college_images
+
+colleges (1) → (M) admission_applications
+
+courses (1) → (M) college_courses
+
+colleges (1) → (M) college_courses
+
+admission_applications (1) → (M) application_documents
