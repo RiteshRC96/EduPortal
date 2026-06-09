@@ -1,33 +1,30 @@
 import axios from "axios";
+const API_URL = "http://localhost:8080/api/auth";
 
-export const login = async (email: string, password: string) => {
-
-  const payload = {
-    email,
-    password
-  };
-
-  console.log("URL:", "http://localhost:8080/api/auth/login");
-  console.log("Payload:", payload);
+export const login = (
+  email: string,
+  password: string
+) => {
 
   return axios.post(
-    "http://localhost:8080/api/auth/login",
-    payload
+    `${API_URL}/login`,
+    {
+      email,
+      password
+    }
   );
 };
 
-export const register = async (email: string, password: string, mobile: string) => {
-
-  const payload = {
+export const register = (
+  name: string,
+  email: string,
+  password: string
+) => {
+  return axios.post(`${API_URL}/register`, {
+    name,
     email,
-    mobile,
     password
-  };
-
-  console.log("URL:", "http://localhost:8080/api/auth/register");
-  console.log("Payload:", payload);
-
-  return axios.post(
-    "http://localhost:8080/api/auth/register", payload
-  );
+  });
 };
+
+
