@@ -52,7 +52,6 @@ export default function LoginPage() {
         'email',
         response.data.email
       );
-
       if (response.data.role === 'ADMIN') {
         navigate('/admin');
       } else {

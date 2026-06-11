@@ -1,5 +1,7 @@
 package com.Eduportalapp.config;
 
+import com.Eduportalapp.filter.JwtFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -8,6 +10,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -16,6 +19,9 @@ import java.util.List;
 
 @Configuration
 public class SecurityConfig {
+
+    @Autowired
+    private JwtFilter jwtFilter;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -39,9 +45,12 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
 
+                        // Public endpoints — no token required
                         .requestMatchers(
                                 "/api/auth/register",
-                                "/api/auth/login"
+                                "/api/auth/login",
+                                "/api/colleges",
+                                "/api/colleges/**"
                         ).permitAll()
 
                         .requestMatchers("/api/admin/**")
@@ -54,7 +63,8 @@ public class SecurityConfig {
                         .authenticated()
                 )
 
-                .httpBasic(Customizer.withDefaults());
+                .httpBasic(Customizer.withDefaults())
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

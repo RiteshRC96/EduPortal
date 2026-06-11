@@ -33,15 +33,19 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
+        // Pass OPTIONS preflight through the full filter chain so CORS headers are applied
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
-            response.setStatus(HttpServletResponse.SC_OK);
+            filterChain.doFilter(request, response);
             return;
         }
 
         String path = request.getRequestURI();
-        if (
-                path.equals("/api/auth/login") ||
-                        path.equals("/api/auth/register")
+
+        // Public routes — skip JWT validation entirely
+        if (path.equals("/api/auth/login")
+                || path.equals("/api/auth/register")
+                || path.equals("/api/colleges")
+                || path.startsWith("/api/colleges/")
         ) {
             filterChain.doFilter(request, response);
             return;
