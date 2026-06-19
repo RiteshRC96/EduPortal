@@ -4,6 +4,7 @@ import com.Eduportalapp.dto.InstituteCardDTO;
 import com.Eduportalapp.dto.InstituteDetailDTO;
 import com.Eduportalapp.model.District;
 import com.Eduportalapp.model.State;
+import com.Eduportalapp.service.InstituteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -55,8 +56,8 @@ public class InstituteController {
         return ResponseEntity.ok(instituteService.getInstituteDetail(id));
     }
 
-//    @PostMapping("/keyword/{keyword}")
-//    public List<InstituteCardDTO> getInstitutesByKeyword(@PathVariable String keyword) {
-//        return 
-//    }
+    @GetMapping("/keyword/{keyword}")
+    public List<InstituteCardDTO> getInstituteByName(@PathVariable String keyword) {
+        return instituteService.getInstituteByName(keyword);
+    }
 }
