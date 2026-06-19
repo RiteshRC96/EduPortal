@@ -177,4 +177,8 @@ public class InstituteService {
             return 0; // Ignore non-numeric strings like 'FULL TIME'
         }
     }
+
+    public List<InstituteCardDTO> getInstituteByName(String keyword) {
+        return instituteRepo.findByInstituteNameContainingIgnoreCase(keyword);
+    }
 }
