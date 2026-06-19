@@ -4,7 +4,6 @@ import com.Eduportalapp.dto.InstituteCardDTO;
 import com.Eduportalapp.dto.InstituteDetailDTO;
 import com.Eduportalapp.model.District;
 import com.Eduportalapp.model.State;
-import com.Eduportalapp.service.InstituteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +18,7 @@ public class InstituteController {
 
     @Autowired
     private InstituteService instituteService;
+
 
     // ── GET /api/colleges/states ───────────────────────────────────────────────
     // Returns all states for the State dropdown
@@ -54,4 +54,9 @@ public class InstituteController {
             @PathVariable Long id) {
         return ResponseEntity.ok(instituteService.getInstituteDetail(id));
     }
+
+//    @PostMapping("/keyword/{keyword}")
+//    public List<InstituteCardDTO> getInstitutesByKeyword(@PathVariable String keyword) {
+//        return 
+//    }
 }
