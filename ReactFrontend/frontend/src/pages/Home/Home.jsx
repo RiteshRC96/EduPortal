@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, ChevronRight, ChevronLeft, ChevronDown, GraduationCap, SlidersHorizontal, Search, X } from 'lucide-react';
 import {
   fetchStates, fetchDistricts, fetchInstitutes, fetchInstituteDetail,
-  fetchInstitutesByKeyword,                           // ← NEW import
+  fetchInstitutesByKeyword,                        
 } from '../../API/collegeApi';
 import CollegeDetailModal from '../../components/CollegeDetailModal/CollegeDetailModal';
 import './Home.css';
