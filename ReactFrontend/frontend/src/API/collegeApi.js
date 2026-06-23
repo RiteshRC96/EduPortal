@@ -1,6 +1,9 @@
 import axios from 'axios';
 const BASE_URL = 'http://localhost:8080/api/colleges';
 // ─── API Calls ───────────────────────────────────────────────────────────────
+export const fetchInstitutesByKeyword = (keyword) =>
+  fetch(`${BASE_URL}/keyword/${encodeURIComponent(keyword)}`)
+    .then((res) => res.json());
 /** Fetch all states for the State dropdown */
 export const fetchStates = () => axios.get(`${BASE_URL}/states`).then((r) => r.data);
 /** Fetch districts for a given stateId */
@@ -19,3 +22,5 @@ export const fetchInstitutes = (params) => axios
     .then((r) => r.data);
 /** Full detail for a single institute (used by the detail modal) */
 export const fetchInstituteDetail = (id) => axios.get(`${BASE_URL}/${id}`).then((r) => r.data);
+
+

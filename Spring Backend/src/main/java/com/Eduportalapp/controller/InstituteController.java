@@ -20,6 +20,7 @@ public class InstituteController {
     @Autowired
     private InstituteService instituteService;
 
+
     // ── GET /api/colleges/states ───────────────────────────────────────────────
     // Returns all states for the State dropdown
     @GetMapping("/states")
@@ -53,5 +54,10 @@ public class InstituteController {
     public ResponseEntity<InstituteDetailDTO> getInstituteDetail(
             @PathVariable Long id) {
         return ResponseEntity.ok(instituteService.getInstituteDetail(id));
+    }
+
+    @GetMapping("/keyword/{keyword}")
+    public List<InstituteCardDTO> getInstituteByName(@PathVariable String keyword) {
+        return instituteService.getInstituteByName(keyword);
     }
 }

@@ -22,6 +22,9 @@ public class UserService {
 
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
     public User register(User user) {
+        if (userRepo.existsByEmail(user.getEmail())) {
+            throw new RuntimeException("Email already registered");
+        }
         user.setPassword(encoder.encode(user.getPassword()));
         user.setRole("USER");
         return userRepo.save(user);
