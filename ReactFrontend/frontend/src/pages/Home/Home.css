@@ -200,6 +200,20 @@
   object-fit: cover;
   transition: transform 0.5s ease;
   display: block;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+}
+
+.college-img-carousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  height: 100%;
+}
+
+.college-img-carousel::-webkit-scrollbar {
+  display: none;
 }
 
 /* Gradient banner shown when backend has no image URL */

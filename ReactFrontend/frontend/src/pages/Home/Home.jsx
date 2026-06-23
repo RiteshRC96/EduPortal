@@ -3,12 +3,42 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, ChevronRight, ChevronLeft, ChevronDown, GraduationCap, SlidersHorizontal, Search, X } from 'lucide-react';
 import {
   fetchStates, fetchDistricts, fetchInstitutes, fetchInstituteDetail,
-  fetchInstitutesByKeyword,                        
+  fetchInstitutesByKeyword,
 } from '../../API/collegeApi';
 import CollegeDetailModal from '../../components/CollegeDetailModal/CollegeDetailModal';
 import './Home.css';
 
 const PAGE_SIZE = 16;
+
+/* ─── Demo Images Pool ───────────────────────────────────────────────────── */
+const demoImagesPool = [
+  "https://images.unsplash.com/photo-1562774053-701939374585?w=500&q=80",
+  "https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?w=500&q=80",
+  "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=500&q=80",
+  "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=500&q=80",
+  "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=500&q=80",
+  "https://images.unsplash.com/photo-1525926672226-0e1a12a32c25?w=500&q=80",
+  "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=500&q=80",
+  "https://images.unsplash.com/photo-1492538368677-f6e0afe314ad?w=500&q=80",
+  "https://images.unsplash.com/photo-1519452285093-41d4c2049618?w=500&q=80",
+  "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?w=500&q=80",
+  "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&q=80",
+  "https://images.unsplash.com/photo-1490650404312-a48db2038743?w=500&q=80",
+  "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=500&q=80",
+  "https://images.unsplash.com/photo-1506869407386-816d97db8c2d?w=500&q=80",
+  "https://imgs.search.brave.com/Gmcd1PQY3bfJ51PrezWOiLGyvh1aDQlepTfmdlaKt_c/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5jb2xsZWdlZGVr/aG8uY29tL21lZGlh/L2ltZy9pbnN0aXR1/dGUvY3Jhd2xlZF9p/bWFnZXMvTm9uZS9i/amtvcDcuanBlZz93/PTM1MCZoPTM1MA",
+  "https://imgs.search.brave.com/ItZqa535D9L8tQOo42ZT09TZxFHz9AjVKdOhO97S4EQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5jb2xsZWdlZGVr/aG8uY29tL21lZGlh/L2ltZy9pbnN0aXR1/dGUvY3Jhd2xlZF9p/bWFnZXMvU3QuTWFy/dGluc19FbmdpbmVl/cmluZ19Db2xsZWdl/aWRlMS5wbmc_d2lk/dGg9NjQw"
+];
+
+export const getDemoImages = (id) => {
+  const numId = typeof id === 'number' ? id : (id ? id.toString().split('').reduce((a, b) => a + b.charCodeAt(0), 0) : 0);
+  return [
+    demoImagesPool[numId % demoImagesPool.length],
+    demoImagesPool[(numId + 1) % demoImagesPool.length],
+    demoImagesPool[(numId + 2) % demoImagesPool.length],
+  ];
+};
+
 
 /* ─── Animation Variants ─────────────────────────────────────────────────── */
 const containerVariants = {
@@ -35,28 +65,28 @@ const cardVariants = {
 
 /* ─── Component ──────────────────────────────────────────────────────────── */
 export default function Home() {
-  const [states, setStates]       = useState([]);
+  const [states, setStates] = useState([]);
   const [districts, setDistricts] = useState([]);
-  const [colleges, setColleges]   = useState([]);
+  const [colleges, setColleges] = useState([]);
 
-  const [selectedState, setSelectedState]       = useState(undefined);
+  const [selectedState, setSelectedState] = useState(undefined);
   const [selectedDistrict, setSelectedDistrict] = useState(undefined);
 
-  const [loadingStates, setLoadingStates]       = useState(true);
+  const [loadingStates, setLoadingStates] = useState(true);
   const [loadingDistricts, setLoadingDistricts] = useState(false);
-  const [loadingColleges, setLoadingColleges]   = useState(true);
+  const [loadingColleges, setLoadingColleges] = useState(true);
 
-  const [currentPage, setCurrentPage]     = useState(0);   // 0-indexed (Spring)
-  const [totalPages, setTotalPages]       = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);   // 0-indexed (Spring)
+  const [totalPages, setTotalPages] = useState(0);
   const [totalElements, setTotalElements] = useState(0);
 
   const [selectedCollege, setSelectedCollege] = useState(null);
-  const [loadingDetail, setLoadingDetail]     = useState(false);
+  const [loadingDetail, setLoadingDetail] = useState(false);
 
   /* ── Search state ─────────────────────────────────────── */
-  const [searchTerm, setSearchTerm]                   = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
-  const [isSearching, setIsSearching]                 = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
 
   /* ── Load States on mount ─────────────────────────────── */
   useEffect(() => {
@@ -109,10 +139,10 @@ export default function Home() {
       setLoadingColleges(true);
 
       fetchInstitutes({
-        stateId:    selectedState,
+        stateId: selectedState,
         districtId: selectedDistrict,
-        page:       currentPage,
-        size:       PAGE_SIZE,
+        page: currentPage,
+        size: PAGE_SIZE,
       }).then((data) => {
         setColleges(data.content);
         setTotalPages(data.totalPages);
@@ -278,8 +308,8 @@ export default function Home() {
                 {loadingDistricts
                   ? 'Loading…'
                   : selectedState
-                  ? '📍 All Districts'
-                  : '📍 Select State First'}
+                    ? '📍 All Districts'
+                    : '📍 Select State First'}
               </option>
               {districts.map((d) => (
                 <option key={d.id} value={d.id}>{d.districtName}</option>
@@ -362,7 +392,11 @@ export default function Home() {
                   layout
                 >
                   <div className="college-card-img-wrap">
-                    <div className="college-img-placeholder" />
+                    <div className="college-img-carousel">
+                      {getDemoImages(college.id).map((src, idx) => (
+                        <img key={idx} src={src} alt="College Campus" className="college-img" />
+                      ))}
+                    </div>
                     <div className="college-img-overlay" />
                     <div className="college-img-tags">
                       {college.institutionType && (
