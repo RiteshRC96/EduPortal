@@ -4,7 +4,7 @@ import { AnimatePresence } from "framer-motion";
 import LoginPage from "./pages/Login/LoginPage";
 import RegisterPage from "./pages/Register/RegisterPage";
 import OTPVerification from "./pages/OTPVerification/OTPVerification";
-import Home from "./pages/Home/Home";
+import Home from "./pages/Home/Home.jsx";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import "./index.css";
