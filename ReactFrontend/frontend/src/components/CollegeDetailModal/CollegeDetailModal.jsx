@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, MapPin, Building2, TrendingUp, Users, Award, Briefcase, ExternalLink, BookOpen } from 'lucide-react';
+import { X, MapPin, Building2, TrendingUp, Users, Award, Briefcase, ExternalLink, BookOpen, Image as ImageIcon } from 'lucide-react';
 import './CollegeDetailModal.css';
+import { getDemoImages } from '../../pages/Home/Home';
 const overlayVariants = {
     hidden: { opacity: 0 },
     show: { opacity: 1, transition: { duration: 0.25 } },
@@ -28,7 +29,7 @@ export default function CollegeDetailModal({ college, onClose }) {
     }, [college]);
     return (<AnimatePresence>
       {college && (<motion.div className="modal-overlay" variants={overlayVariants} initial="hidden" animate="show" exit="exit" onClick={onClose}>
-          <motion.div className="modal-container glass" variants={modalVariants} initial="hidden" animate="show" exit="exit" onClick={(e) => e.stopPropagation()}>
+          <motion.div className="modal-container" variants={modalVariants} initial="hidden" animate="show" exit="exit" onClick={(e) => e.stopPropagation()}>
             {/* Close Button */}
             <button className="modal-close-btn" onClick={onClose} aria-label="Close modal">
               <X size={20}/>
@@ -43,11 +44,18 @@ export default function CollegeDetailModal({ college, onClose }) {
                     <BookOpen size={48}/>
                   </div>
                   <div>
-                    <h2 className="modal-title">{college.instituteName}</h2>
-                    <div className="modal-location">
-                      <MapPin size={15}/>
-                      <span>{college.address || 'Address not available'}</span>
-                    </div>
+                    <h2 className="modal-title" style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                      {college.instituteName}
+                      <a 
+                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${college.instituteName}, ${college.address}`)}`} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        style={{ color: 'inherit', opacity: 0.9, display: 'inline-flex' }}
+                        title="Open in Google Maps"
+                      >
+                        <MapPin size={22}/>
+                      </a>
+                    </h2>
                   </div>
                 </div>
 
@@ -144,21 +152,15 @@ export default function CollegeDetailModal({ college, onClose }) {
                     </div>
                   </div>)}
 
-                {/* Map Placeholder */}
-                <div className="modal-map-section">
-                  <h3 className="section-title">
-                    <MapPin size={18}/> Location
+                {/* Image Gallery */}
+                <div className="modal-gallery-section">
+                  <h3 className="section-title" style={{ marginBottom: '14px' }}>
+                    <ImageIcon size={18}/> Gallery
                   </h3>
-                  <div className="map-placeholder">
-                    <div className="map-placeholder-inner">
-                      <div className="map-pin-icon">
-                        <MapPin size={40}/>
-                      </div>
-                      <p className="map-placeholder-text">{college.address}</p>
-                      <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${college.instituteName}, ${college.address}`)}`} target="_blank" rel="noopener noreferrer" className="map-open-link">
-                        <ExternalLink size={14}/> Open in Google Maps
-                      </a>
-                    </div>
+                  <div className="gallery-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
+                    {getDemoImages(college.id).map((src, idx) => (
+                      <img key={idx} src={src} alt="Gallery" style={{ width: '100%', height: '140px', objectFit: 'cover', borderRadius: '12px', border: '1px solid var(--glass-border)' }} />
+                    ))}
                   </div>
                 </div>
 
