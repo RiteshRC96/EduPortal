@@ -4,8 +4,12 @@ import com.Eduportalapp.dto.LoginRequest;
 import com.Eduportalapp.dto.LoginResponse;
 import com.Eduportalapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.Eduportalapp.model.User;
+
+import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -16,8 +20,14 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("register")
-    public User register(@RequestBody User user) {
-        return userService.register(user);
+    public ResponseEntity<?> register(@RequestBody User user) {
+        try {
+            User saved = userService.register(user);
+            return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(Map.of("error", e.getMessage()));
+        }
     }
 
     @PostMapping("/login")

@@ -30,7 +30,5 @@ public interface InstituteRepo extends JpaRepository<Institute, Long> {
             "FROM Institute i, State s, District d " +
             "WHERE i.stateId = s.id AND i.districtId = d.id " +
             "AND LOWER(i.instituteName) LIKE LOWER(CONCAT('%', :keyword, '%'))")
-    List<InstituteCardDTO> findByInstituteNameContainingIgnoreCase(@Param("keyword") String keyword);
-
-
+    List<InstituteCardDTO> searchInstitutes(@Param("keyword") String keyword);
 }
